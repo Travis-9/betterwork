@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Betterwork
 
-## Getting Started
+Betterwork is a bilingual, Suriname-first freelance marketplace. This repository currently contains the public pre-launch landing page and its Firebase-backed early-access flow.
 
-First, run the development server:
+## Local setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Node.js 22 or newer is required by Firebase Admin 14.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. Run `nvm use 23.6.1` on this workstation.
+2. Install dependencies with `pnpm install`.
+3. Copy `.env.example` to `.env.local` and provide Firebase Admin credentials.
+4. Run `pnpm dev` and open `/nl` or `/en`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Without Firebase credentials, the site remains fully usable for visual development, but waitlist submissions return a localized unavailable state.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Commands
 
-## Learn More
+- `pnpm dev` starts the development server.
+- `pnpm dev:turbo` starts the optional Turbopack server; the default uses Webpack because Turbopack currently loses Next.js package resolution with pnpm during HMR on Windows.
+- `pnpm lint` runs ESLint.
+- `pnpm typecheck` checks TypeScript.
+- `pnpm test` runs the automated tests.
+- `pnpm build` creates the production build.
 
-To learn more about Next.js, take a look at the following resources:
+## Firebase data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The `POST /api/waitlist` route writes server-side to `waitlistSignups`. Each normalized email address is hashed into a deterministic document ID so duplicate registrations do not create additional records. Firebase Admin credentials are never sent to the browser.
