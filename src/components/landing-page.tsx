@@ -9,6 +9,7 @@ import {
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
 import Image from "next/image";
+import Link from "next/link";
 import type { LandingCopy, Locale } from "@/lib/i18n";
 import { SiteHeader } from "@/components/site-header";
 import { WaitlistForm } from "@/components/waitlist-form";
@@ -40,10 +41,10 @@ export function LandingPage({ locale, copy }: LandingPageProps) {
                 {copy.hero.primary}
                 <ArrowRight aria-hidden="true" />
               </a>
-              <a className="secondary-cta" href="#work">
+              <Link className="secondary-cta" href="/jobs">
                 {copy.hero.secondary}
                 <ArrowRight aria-hidden="true" />
-              </a>
+              </Link>
             </div>
             <p className="local-note">
               <CheckCircle aria-hidden="true" />
@@ -111,10 +112,10 @@ export function LandingPage({ locale, copy }: LandingPageProps) {
                 <Briefcase aria-hidden="true" weight="duotone" />
                 <h3>{copy.talent.freelancerTitle}</h3>
                 <p>{copy.talent.freelancerBody}</p>
-                <a href="#early-access">
+                <Link href="/jobs">
                   {copy.hero.secondary}
                   <ArrowRight aria-hidden="true" />
-                </a>
+                </Link>
               </article>
             </div>
           </div>
@@ -156,7 +157,7 @@ export function LandingPage({ locale, copy }: LandingPageProps) {
             <div>
               <strong>{copy.footer.product}</strong>
               <a href="#talent">{copy.header.talent}</a>
-              <a href="#work">{copy.header.work}</a>
+              <Link href="/jobs">{copy.header.work}</Link>
               <a href="#story">{copy.header.story}</a>
             </div>
             <div>

@@ -33,7 +33,7 @@ export function SiteHeader({ locale, copy }: SiteHeaderProps) {
 
         <nav className="desktop-nav" aria-label="Primary navigation">
           <a href="#talent">{copy.talent}</a>
-          <a href="#work">{copy.work}</a>
+          <Link href="/jobs">{copy.work}</Link>
           <a href="#story">{copy.story}</a>
         </nav>
 
@@ -82,9 +82,9 @@ export function SiteHeader({ locale, copy }: SiteHeaderProps) {
           <a href="#talent" onClick={closeMenu}>
             {copy.talent}
           </a>
-          <a href="#work" onClick={closeMenu}>
+          <Link href="/jobs" onClick={closeMenu}>
             {copy.work}
-          </a>
+          </Link>
           <a href="#story" onClick={closeMenu}>
             {copy.story}
           </a>
