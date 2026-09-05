@@ -25,3 +25,4 @@ Without Firebase credentials, the site remains fully usable for visual developme
 ## Firebase data
 
 The `POST /api/waitlist` route writes server-side to `waitlistSignups`. Each normalized email address is hashed into a deterministic document ID so duplicate registrations do not create additional records. Firebase Admin credentials are never sent to the browser.
+Travis
