@@ -13,7 +13,7 @@ export function AboutPage() {
       <header className="about-header">
         <div className="about-header-inner">
           <Link className="about-wordmark" href="/" aria-label="ConnectSu home">
-            <span>ConnectSu</span>
+            <span>Betterwork</span>
           </Link>
           <nav className="about-nav" aria-label="Primary navigation">
             <Link href="/jobs">Jobs</Link>
@@ -53,8 +53,8 @@ export function AboutPage() {
       <footer className="about-footer">
         <div className="about-footer-inner">
           <div className="about-footer-brand">
-            <span>ConnectSu</span>
-            <p>© 2024 ConnectSu. Strengthening Suriname&rsquo;s workforce.</p>
+            <span>Betterwork</span>
+            <p>© 2024 Betterwork. Strengthening Suriname&rsquo;s workforce.</p>
           </div>
           <nav className="about-footer-nav">
             <Link href="/terms">Terms of Service</Link>
@@ -74,9 +74,9 @@ function HeroSection() {
     <section className="about-hero">
       <div className="about-hero-inner">
         <div className="about-hero-content">
-          <div className="about-hero-badge">Over ConnectSu</div>
-          <h1>Wat is <span className="accent">ConnectSu</span>?</h1>
-          <p>ConnectSu is dé centrale, betrouwbare marktplaats voor professioneel talent in Suriname. Wij brengen ambitieuze freelancers, vakmensen en bedrijven samen op één overzichtelijk platform, speciaal gebouwd voor de Surinaamse markt.</p>
+          <div className="about-hero-badge">Over Betterwork</div>
+          <h1>Wat is <span className="accent">Betterwork</span>?</h1>
+          <p>Betterwork is de centrale, betrouwbare marktplaats voor professioneel talent in Suriname. Wij brengen ambitieuze freelancers, vakmensen en bedrijven samen op één overzichtelijk platform, speciaal gebouwd voor de Surinaamse markt.</p>
           <div className="about-hero-actions">
             <Link className="about-primary-btn" href="/freelancers">Ontdek Talent <ArrowRight aria-hidden="true" /></Link>
             <Link className="about-secondary-btn" href="/jobs">Vind Werk</Link>
@@ -116,11 +116,11 @@ function ProblemSection() {
             <div className="about-problem-points">
               <div className="about-problem-point negative">
                 <X aria-hidden="true" />
-                <p>Zonder ConnectSu: Moeite om nieuwe, betrouwbare opdrachtgevers te vinden buiten het eigen, beperkte netwerk.</p>
+                <p>Zonder Betterwork: Moeite om nieuwe, betrouwbare opdrachtgevers te vinden buiten het eigen, beperkte netwerk.</p>
               </div>
               <div className="about-problem-point positive">
                 <Check aria-hidden="true" />
-                <p>Met ConnectSu: Een professioneel profiel, direct zichtbaar voor bedrijven die actief zoeken naar jouw specifieke vaardigheden.</p>
+                <p>Met Betterwork: Een professioneel profiel, direct zichtbaar voor bedrijven die actief zoeken naar jouw specifieke vaardigheden.</p>
               </div>
             </div>
           </div>
@@ -132,11 +132,11 @@ function ProblemSection() {
             <div className="about-problem-points">
               <div className="about-problem-point negative">
                 <X aria-hidden="true" />
-                <p>Zonder ConnectSu: Veel tijd kwijt aan het zoeken via informele kanalen naar tijdelijke expertise, met onzekerheid over kwaliteit.</p>
+                <p>Zonder Betterwork: Veel tijd kwijt aan het zoeken via informele kanalen naar tijdelijke expertise, met onzekerheid over kwaliteit.</p>
               </div>
               <div className="about-problem-point positive">
                 <Check aria-hidden="true" />
-                <p>Met ConnectSu: Direct toegang tot een gecategoriseerde pool van geverifieerde lokale professionals.</p>
+                <p>Met Betterwork: Direct toegang tot een gecategoriseerde pool van geverifieerde lokale professionals.</p>
               </div>
             </div>
           </div>
@@ -205,7 +205,7 @@ function VisionCTASection() {
             <Globe aria-hidden="true" />
           </div>
           <h3>Bouw mee aan de toekomst</h3>
-          <p>Ben jij een voorloper? Sluit je aan bij de eerste groep professionals en bedrijven op ConnectSu en help de standaard te zetten.</p>
+          <p>Ben jij een voorloper? Sluit je aan bij de eerste groep professionals en bedrijven op Betterwork en help de standaard te zetten.</p>
           <Link className="about-launch-btn" href="/partners">Word Launch Partner</Link>
         </div>
       </div>
