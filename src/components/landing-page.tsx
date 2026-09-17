@@ -17,14 +17,15 @@ import { WaitlistForm } from "@/components/waitlist-form";
 type LandingPageProps = {
   locale: Locale;
   copy: LandingCopy;
+  authenticated: boolean;
 };
 
 const trustIcons = [MapPin, ClipboardText, CreditCard, ShieldCheck];
 
-export function LandingPage({ locale, copy }: LandingPageProps) {
+export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
   return (
     <div className="page-shell">
-      <SiteHeader locale={locale} copy={copy.header} />
+      <SiteHeader locale={locale} copy={copy.header} authenticated={authenticated} />
 
       <main>
         <section className="hero" id="top">
@@ -162,7 +163,7 @@ export function LandingPage({ locale, copy }: LandingPageProps) {
             </div>
             <div>
               <strong>{copy.footer.legal}</strong>
-              <span>{copy.footer.privacy}</span>
+              <Link href={`/${locale}/privacy`}>{copy.footer.privacy}</Link>
               <span>{copy.footer.terms}</span>
             </div>
           </div>

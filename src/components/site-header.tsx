@@ -8,11 +8,11 @@ import type { LandingCopy, Locale } from "@/lib/i18n";
 type SiteHeaderProps = {
   locale: Locale;
   copy: LandingCopy["header"];
+  authenticated: boolean;
 };
 
-export function SiteHeader({ locale, copy }: SiteHeaderProps) {
+export function SiteHeader({ locale, copy, authenticated }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [soonOpen, setSoonOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -39,19 +39,9 @@ export function SiteHeader({ locale, copy }: SiteHeaderProps) {
 
         <div className="header-actions">
           <div className="login-wrap">
-            <button
-              className="login-button"
-              type="button"
-              aria-expanded={soonOpen}
-              onClick={() => setSoonOpen((value) => !value)}
-            >
-              {copy.login}
-            </button>
-            {soonOpen ? (
-              <span className="coming-soon" role="status">
-                {copy.comingSoon}
-              </span>
-            ) : null}
+            <Link className="login-button" href={`/${locale}/${authenticated ? "account" : "login"}`}>
+              {authenticated ? copy.account : copy.login}
+            </Link>
           </div>
 
           <div className="locale-switcher" aria-label="Language">
@@ -88,15 +78,9 @@ export function SiteHeader({ locale, copy }: SiteHeaderProps) {
           <a href="#story" onClick={closeMenu}>
             {copy.story}
           </a>
-          <button
-            type="button"
-            onClick={() => {
-              setSoonOpen(true);
-              closeMenu();
-            }}
-          >
-            {copy.login} · {copy.comingSoon}
-          </button>
+          <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
+            {authenticated ? copy.account : copy.login}
+          </Link>
         </nav>
       ) : null}
     </header>

@@ -41,3 +41,7 @@ dev-server*.log
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+n*-firebase-adminsdk-*.json
+
+# Firebase service account keys
+*-firebase-adminsdk-*.json

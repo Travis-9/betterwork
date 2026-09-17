@@ -1,0 +1,19 @@
+name: Trigger Vercel Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel deploy hook for this branch
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            curl -fsS -X POST "${{ secrets.DEPLOY_HOOK_URL_MAIN }}"
+          elif [ "${{ github.ref_name }}" = "dev" ]; then
+            curl -fsS -X POST "${{ secrets.DEPLOY_HOOK_URL_DEV }}"
+          fi

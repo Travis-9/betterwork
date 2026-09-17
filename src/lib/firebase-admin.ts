@@ -1,4 +1,5 @@
-import { cert, getApps, initializeApp } from "firebase-admin/app";
+import { cert, getApp, getApps, initializeApp } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
 export class FirebaseConfigurationError extends Error {
@@ -8,7 +9,7 @@ export class FirebaseConfigurationError extends Error {
   }
 }
 
-export function getFirebaseDb() {
+export function getFirebaseAdminApp() {
   const projectId = process.env.FIREBASE_PROJECT_ID;
   const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
   const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
@@ -17,11 +18,17 @@ export function getFirebaseDb() {
     throw new FirebaseConfigurationError();
   }
 
-  const app =
-    getApps()[0] ??
-    initializeApp({
-      credential: cert({ projectId, clientEmail, privateKey }),
-    });
+  return getApps().length > 0
+    ? getApp()
+    : initializeApp({
+        credential: cert({ projectId, clientEmail, privateKey }),
+      });
+}
 
-  return getFirestore(app);
+export function getFirebaseDb() {
+  return getFirestore(getFirebaseAdminApp());
+}
+
+export function getFirebaseAdminAuth() {
+  return getAuth(getFirebaseAdminApp());
 }
