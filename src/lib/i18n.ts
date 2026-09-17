@@ -9,6 +9,7 @@ export type LandingCopy = {
     work: string;
     story: string;
     login: string;
+    account: string;
     comingSoon: string;
     menuOpen: string;
     menuClose: string;
@@ -85,6 +86,7 @@ export const copy: Record<Locale, LandingCopy> = {
       work: "Werk vinden",
       story: "Over Betterwork",
       login: "Inloggen",
+      account: "Account",
       comingSoon: "Binnenkort beschikbaar",
       menuOpen: "Menu openen",
       menuClose: "Menu sluiten",
@@ -187,6 +189,7 @@ export const copy: Record<Locale, LandingCopy> = {
       work: "Find work",
       story: "About Betterwork",
       login: "Log in",
+      account: "Account",
       comingSoon: "Coming soon",
       menuOpen: "Open menu",
       menuClose: "Close menu",

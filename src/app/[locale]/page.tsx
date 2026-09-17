@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LandingPage } from "@/components/landing-page";
+import { getCurrentUser } from "@/lib/auth-server";
 import { copy, isLocale, locales } from "@/lib/i18n";
 
 type LocalePageProps = {
@@ -35,5 +36,6 @@ export default async function LocalePage({ params }: LocalePageProps) {
     notFound();
   }
 
-  return <LandingPage locale={locale} copy={copy[locale]} />;
+  const user = await getCurrentUser();
+  return <LandingPage locale={locale} copy={copy[locale]} authenticated={Boolean(user)} />;
 }
