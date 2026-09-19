@@ -23,10 +23,6 @@ export type LandingCopy = {
     note: string;
     imageAlt: string;
   };
-  heroCard: {
-    title: string;
-    body: string;
-  };
   trust: {
     title: string;
     items: Array<{ title: string; body: string }>;
@@ -84,10 +80,6 @@ export const copy: Record<Locale, LandingCopy> = {
       note: "Voor opdrachtgevers en freelancers. 100% lokaal.",
       imageAlt:
         "Twee Surinaamse professionals die samen aan een project werken",
-    },
-    heroCard: {
-      title: "Klaar om te beginnen?",
-      body: "Maak een gratis account aan als opdrachtgever of freelancer en claim je plek voor de lancering.",
     },
     trust: {
       title: "Lokaal gevonden. Duidelijk afgesproken. Betaald op jouw manier.",
@@ -166,10 +158,6 @@ export const copy: Record<Locale, LandingCopy> = {
       secondary: "Discover work",
       note: "For clients and freelancers. 100% local.",
       imageAlt: "Two Surinamese professionals working together on a project",
-    },
-    heroCard: {
-      title: "Ready to start?",
-      body: "Create a free account as a client or freelancer and claim your place before launch.",
     },
     trust: {
       title: "Found locally. Clearly agreed. Paid your way.",

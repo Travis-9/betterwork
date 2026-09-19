@@ -61,17 +61,6 @@ export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
               sizes="(max-width: 900px) 100vw, 58vw"
             />
           </div>
-
-          <div className="form-position reveal reveal-three">
-            <div className="hero-cta-card glass-panel" id="early-access">
-              <h2>{copy.heroCard.title}</h2>
-              <p>{copy.heroCard.body}</p>
-              <Link className="primary-cta" href={`/${locale}/signup`}>
-                {copy.hero.primary}
-                <ArrowRight aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
         </section>
 
         <section className="trust-section" aria-labelledby="trust-title">
