@@ -1,6 +1,6 @@
 # Betterwork
 
-Betterwork is a bilingual, Suriname-first freelance marketplace. This repository contains the public pre-launch landing page, Firebase-backed early access, and secure public account creation.
+Betterwork is a bilingual, Suriname-first freelance marketplace. This repository contains the public pre-launch landing page and secure public account creation.
 
 ## Local setup
 
@@ -11,7 +11,7 @@ Node.js 22 or newer is required by Firebase Admin 14.
 3. Copy `.env.example` to `.env.local`, use the Betterwork Web SDK values, and provide Firebase Admin credentials.
 4. Run `pnpm dev` and open `/nl` or `/en`.
 
-Without Firebase Admin credentials, the public UI remains available, but waitlist persistence and server-session creation return a safe unavailable response.
+Without Firebase Admin credentials, the public UI remains available, but server-session creation returns a safe unavailable response.
 
 ## Commands
 
@@ -37,13 +37,11 @@ The `NEXT_PUBLIC_FIREBASE_*` values identify the Firebase web project and are in
 Deploy deny-by-default client rules after authenticating the Firebase CLI:
 
 ```powershell
-pnpm dlx firebase-tools deploy --only firestore:rules --project betterwork-7dbe6
+pnpm exec firebase deploy --only firestore:rules --project betterwork-7dbe6
 ```
 
 ## Firebase data
 
-The `POST /api/waitlist` route writes server-side to `waitlistSignups`. Each normalized email address is hashed into a deterministic document ID so duplicate registrations do not create additional records. Firebase Admin credentials are never sent to the browser.
-
-Authentication profile writes are also server-only. Profiles are stored at `users/{uid}` with identity, role, locale, provider, verification, and server timestamp fields. Browser Auth uses in-memory persistence; the authoritative login is the five-day `betterwork_session` httpOnly cookie.
+Authentication profile writes are server-only. Profiles are stored at `users/{uid}` with identity, role, locale, provider, verification, and server timestamp fields. Browser Auth uses in-memory persistence; the authoritative login is the five-day `betterwork_session` httpOnly cookie.
 
 Firebase Analytics initializes only in production, on supported browsers, and after explicit consent. The preference is stored locally under `betterwork.analytics-consent.v1`.

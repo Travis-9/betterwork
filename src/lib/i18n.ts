@@ -23,26 +23,9 @@ export type LandingCopy = {
     note: string;
     imageAlt: string;
   };
-  form: {
+  heroCard: {
     title: string;
-    summaryLabel: string;
-    summaryPlaceholder: string;
-    roleLabel: string;
-    client: string;
-    freelancer: string;
-    emailLabel: string;
-    emailPlaceholder: string;
-    submit: string;
-    submitting: string;
-    privacy: string;
-    successTitle: string;
-    successBody: string;
-    duplicateTitle: string;
-    duplicateBody: string;
-    reset: string;
-    validationError: string;
-    configurationError: string;
-    serverError: string;
+    body: string;
   };
   trust: {
     title: string;
@@ -96,35 +79,15 @@ export const copy: Record<Locale, LandingCopy> = {
       headline: ["Lokaal talent.", "Echte projecten.", "Samen vooruit."],
       body:
         "Betterwork is de Suriname-first marktplaats waar opdrachtgevers en freelancers elkaar vinden, afspraken duidelijk maken en projecten in beweging brengen.",
-      primary: "Krijg vroege toegang",
+      primary: "Maak een account",
       secondary: "Ontdek werk",
       note: "Voor opdrachtgevers en freelancers. 100% lokaal.",
       imageAlt:
         "Twee Surinaamse professionals die samen aan een project werken",
     },
-    form: {
-      title: "Wat wil je laten maken?",
-      summaryLabel: "Beschrijf je project of doel",
-      summaryPlaceholder: "Bijvoorbeeld: een nieuwe website voor mijn bedrijf",
-      roleLabel: "Ik ben een...",
-      client: "Ik zoek talent",
-      freelancer: "Ik zoek werk",
-      emailLabel: "E-mailadres",
-      emailPlaceholder: "jij@voorbeeld.sr",
-      submit: "Krijg vroege toegang",
-      submitting: "Aanmelden...",
-      privacy:
-        "We gebruiken je gegevens alleen voor vroege toegang en relevante updates. Geen spam.",
-      successTitle: "Je staat op de lijst.",
-      successBody:
-        "We laten je weten wanneer Betterwork klaar is voor de eerste gebruikers.",
-      duplicateTitle: "Je bent al aangemeld.",
-      duplicateBody: "Dit e-mailadres staat al op onze vroege-toegangslijst.",
-      reset: "Nog iemand aanmelden",
-      validationError: "Controleer je gegevens en probeer het opnieuw.",
-      configurationError:
-        "Aanmelden is tijdelijk niet beschikbaar. Probeer het later opnieuw.",
-      serverError: "Er ging iets mis. Probeer het over een moment opnieuw.",
+    heroCard: {
+      title: "Klaar om te beginnen?",
+      body: "Maak een gratis account aan als opdrachtgever of freelancer en claim je plek voor de lancering.",
     },
     trust: {
       title: "Lokaal gevonden. Duidelijk afgesproken. Betaald op jouw manier.",
@@ -199,34 +162,14 @@ export const copy: Record<Locale, LandingCopy> = {
       headline: ["Local talent.", "Real projects.", "Moving forward."],
       body:
         "Betterwork is the Suriname-first marketplace where clients and freelancers find each other, make clear agreements, and get projects moving.",
-      primary: "Get early access",
+      primary: "Create an account",
       secondary: "Discover work",
       note: "For clients and freelancers. 100% local.",
       imageAlt: "Two Surinamese professionals working together on a project",
     },
-    form: {
-      title: "What would you like to create?",
-      summaryLabel: "Describe your project or goal",
-      summaryPlaceholder: "For example: a new website for my business",
-      roleLabel: "I am...",
-      client: "Looking for talent",
-      freelancer: "Looking for work",
-      emailLabel: "Email address",
-      emailPlaceholder: "you@example.sr",
-      submit: "Get early access",
-      submitting: "Joining...",
-      privacy:
-        "We only use your details for early access and relevant updates. No spam.",
-      successTitle: "You are on the list.",
-      successBody:
-        "We will let you know when Betterwork is ready for its first users.",
-      duplicateTitle: "You are already registered.",
-      duplicateBody: "This email address is already on our early-access list.",
-      reset: "Register someone else",
-      validationError: "Check your details and try again.",
-      configurationError:
-        "Registration is temporarily unavailable. Please try again later.",
-      serverError: "Something went wrong. Please try again in a moment.",
+    heroCard: {
+      title: "Ready to start?",
+      body: "Create a free account as a client or freelancer and claim your place before launch.",
     },
     trust: {
       title: "Found locally. Clearly agreed. Paid your way.",

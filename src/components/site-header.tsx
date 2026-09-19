@@ -1,17 +1,19 @@
 "use client";
 
-import { Leaf, List, X } from "@phosphor-icons/react";
+import { List, X } from "@phosphor-icons/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import type { LandingCopy, Locale } from "@/lib/i18n";
 
 type SiteHeaderProps = {
   locale: Locale;
   copy: LandingCopy["header"];
   authenticated: boolean;
+  activePage?: "jobs" | "freelancers" | "about";
 };
 
-export function SiteHeader({ locale, copy, authenticated }: SiteHeaderProps) {
+export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -23,18 +25,18 @@ export function SiteHeader({ locale, copy, authenticated }: SiteHeaderProps) {
   return (
     <header className="site-header">
       <div className="header-shell glass-nav">
-        <a className="wordmark" href="#top" aria-label="Betterwork">
-          <Leaf aria-hidden="true" weight="fill" />
+        <Link className="wordmark" href="/" aria-label="Betterwork">
+          <Image src="/logo.png" alt="" width={40} height={40}/>
           <span>
             Betterwork
             <small>Suriname-first</small>
           </span>
-        </a>
+        </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <a href="#talent">{copy.talent}</a>
-          <Link href="/jobs">{copy.work}</Link>
-          <a href="#story">{copy.story}</a>
+          <Link href="/freelancers" className={activePage === "freelancers" ? "active" : ""}>Freelancers</Link>
+          <Link href="/jobs" className={activePage === "jobs" ? "active" : ""}>Jobs</Link>
+          <Link href="/about" className={activePage === "about" ? "active" : ""}>About</Link>
         </nav>
 
         <div className="header-actions">
@@ -59,7 +61,7 @@ export function SiteHeader({ locale, copy, authenticated }: SiteHeaderProps) {
             type="button"
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
-            aria-label={menuOpen ? copy.menuClose : copy.menuOpen}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((value) => !value)}
           >
             {menuOpen ? <X aria-hidden="true" /> : <List aria-hidden="true" />}
@@ -69,15 +71,15 @@ export function SiteHeader({ locale, copy, authenticated }: SiteHeaderProps) {
 
       {menuOpen ? (
         <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-          <a href="#talent" onClick={closeMenu}>
-            {copy.talent}
-          </a>
-          <Link href="/jobs" onClick={closeMenu}>
-            {copy.work}
+          <Link href="/freelancers" className={activePage === "freelancers" ? "active" : ""} onClick={closeMenu}>
+            Freelancers
           </Link>
-          <a href="#story" onClick={closeMenu}>
-            {copy.story}
-          </a>
+          <Link href="/jobs" className={activePage === "jobs" ? "active" : ""} onClick={closeMenu}>
+            Jobs
+          </Link>
+          <Link href="/about" className={activePage === "about" ? "active" : ""} onClick={closeMenu}>
+            About
+          </Link>
           <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
             {authenticated ? copy.account : copy.login}
           </Link>

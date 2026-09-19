@@ -5,8 +5,7 @@
 Betterwork is a bilingual, Suriname-first freelance marketplace. The current product is a public pre-launch landing page with:
 
 - Dutch and English landing pages at `/nl` and `/en`.
-- Firebase-backed early-access registration for clients and freelancers.
-- Public account creation and login with email/password or Google.
+- Public account creation and login with email/password or Google — this is also the single early-access entry point for clients and freelancers.
 - Email verification, password reset, profile onboarding, and a basic account screen.
 - A five-day server-side session cookie backed by Firebase Admin.
 - Privacy copy and opt-in Firebase Analytics consent.
@@ -62,11 +61,10 @@ Use `pnpm dev` by default. It runs `next dev --webpack`; this is intentional bec
 src/
   app/                         App Router pages, layouts, and API route handlers
     [locale]/                  Dutch/English route segment
-    api/waitlist/              Early-access POST endpoint
     api/auth/                  CSRF, session, current-user, and profile endpoints
     globals.css                Design tokens and responsive visual system
   components/                  Landing, auth, consent, and interactive client UI
-  lib/                         i18n, Firebase, auth, waitlist, and consent logic
+  lib/                         i18n, Firebase, auth, and consent logic
   proxy.ts                     Locale request-header proxy
 public/images/                 Hero and Paramaribo River imagery
 design/                        Reference and implementation screenshots
@@ -117,18 +115,6 @@ Public browser configuration comes from `NEXT_PUBLIC_FIREBASE_*` variables. Thos
 
 Never expose Admin credentials to the browser and never prefix them with `NEXT_PUBLIC_`. The private key may contain escaped `\\n` sequences and is normalized before creating the Admin credential.
 
-### Waitlist
-
-`WaitlistForm` posts to `POST /api/waitlist`. The route validates with `waitlistSchema` and writes through `saveWaitlistSignup()` to the `waitlistSignups` collection. The normalized email is SHA-256 hashed into the document ID, so duplicate email submissions return `duplicate` without creating another record. The hidden `company` field is a honeypot and must remain empty.
-
-The route returns localized-safe status values rather than leaking implementation details:
-
-- `created` → HTTP 201
-- `duplicate` → HTTP 200
-- `invalid` → HTTP 400
-- `unavailable` when Admin credentials are missing → HTTP 503
-- `error` for unexpected server failures → HTTP 500
-
 ### Authentication
 
 The client uses Firebase Auth for email/password and Google sign-in, then exchanges a fresh Firebase ID token for a server session through `createServerSession()`.
@@ -159,12 +145,13 @@ User profiles are server-managed at `users/{uid}`. Stored fields include identit
 4. Fill in the Firebase Web SDK values and server-only Firebase Admin credentials.
 5. Start with `pnpm dev` and open `/nl` or `/en`.
 
-Without Firebase Admin credentials, the public UI still renders, but waitlist persistence and server-session creation return safe unavailable/configuration responses. Do not treat this mode as proof that live Firestore persistence works.
+Without Firebase Admin credentials, the public UI still renders, but server-session creation returns safe unavailable/configuration responses. Do not treat this mode as proof that live Firestore persistence works.
 
-The current Firebase project used in the documented deployment command is `betterwork-7dbe6`. To deploy the deny-by-default rules after authenticating the Firebase CLI:
+The current Firebase project used in the documented deployment command is `betterwork-7dbe6`. `firebase-tools` is a tracked devDependency, so authenticate and deploy the deny-by-default rules with:
 
 ```powershell
-pnpm dlx firebase-tools deploy --only firestore:rules --project betterwork-7dbe6
+pnpm exec firebase login
+pnpm exec firebase deploy --only firestore:rules --project betterwork-7dbe6
 ```
 
 Firebase Console setup requires Email/Password and Google providers, a Google support email, authorized local/production domains, and a service account. Restrict the Web API key in Google Cloud to the required Firebase APIs and approved referrers.
@@ -187,7 +174,7 @@ Firebase Console setup requires Email/Password and Google providers, a Google su
 The landing page follows the selected Option 3 composition:
 
 - Split desktop hero with editorial three-line headline.
-- Collaboration image on the right and overlapping early-access form.
+- Collaboration image on the right and an overlapping sign-up CTA card.
 - Trust section with four value propositions.
 - Two audience paths: clients and freelancers.
 - Origin-story section with Paramaribo River imagery.
@@ -200,10 +187,8 @@ Responsive breakpoints in the global stylesheet cover desktop, tablet (`900px`/`
 
 Tests are colocated with the implementation. Current coverage includes:
 
-- Waitlist schema normalization, minimum summary length, honeypot rejection, route creation, duplicate, unavailable, and safe server-error behavior.
 - Auth validation, same-origin/CSRF checks, stale-token rejection, verification requirement, session cookie creation/clearing, and profile flow.
 - Auth form email login, signup, password reset, Google onboarding routing, and localized errors.
-- Waitlist role switching and success UI.
 - Firebase browser singleton and in-memory persistence setup.
 - Analytics consent storage and banner behavior.
 
