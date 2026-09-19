@@ -5,11 +5,18 @@ import { getCurrentUser } from "@/lib/auth-server";
 import { authCopy } from "@/lib/auth-copy";
 import { isLocale } from "@/lib/i18n";
 
-export default async function LoginPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function LoginPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ verified?: string }>;
+}) {
   const { locale } = await params;
+  const { verified } = await searchParams;
   if (!isLocale(locale)) notFound();
   const user = await getCurrentUser();
   if (user?.profileComplete) redirect(`/${locale}/account`);
   const text = authCopy[locale];
-  return <AuthShell locale={locale} route="login" eyebrow={text.login.eyebrow} title={text.login.title} body={text.login.body} backLabel={text.common.backHome}><AuthForm locale={locale} copy={text} mode="login" /></AuthShell>;
+  return <AuthShell locale={locale} route="login" eyebrow={text.login.eyebrow} title={text.login.title} body={text.login.body} backLabel={text.common.backHome}><AuthForm locale={locale} copy={text} mode="login" verified={verified === "1"} /></AuthShell>;
 }

@@ -55,6 +55,13 @@ describe("AuthForm", () => {
     expect(mocks.push).toHaveBeenCalledWith("/en/account");
   });
 
+  it("shows the email-verified notice on login only when arriving from the verification link", () => {
+    const { rerender } = render(<AuthForm locale="en" copy={authCopy.en} mode="login" verified />);
+    expect(screen.getByRole("status")).toHaveTextContent(authCopy.en.login.verified);
+    rerender(<AuthForm locale="en" copy={authCopy.en} mode="login" />);
+    expect(screen.queryByRole("status")).toBeNull();
+  });
+
   it("creates a freelancer profile and routes to verification", async () => {
     mocks.createSession.mockResolvedValue({ status: "verification_required" });
     render(<AuthForm locale="nl" copy={authCopy.nl} mode="signup" />);

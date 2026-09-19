@@ -22,9 +22,10 @@ type AuthFormProps = {
   locale: Locale;
   copy: AuthCopy;
   mode: "login" | "signup" | "forgot";
+  verified?: boolean;
 };
 
-export function AuthForm({ locale, copy, mode }: AuthFormProps) {
+export function AuthForm({ locale, copy, mode, verified = false }: AuthFormProps) {
   const router = useRouter();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -75,7 +76,7 @@ export function AuthForm({ locale, copy, mode }: AuthFormProps) {
         const credential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(credential.user, { displayName: displayName.trim() });
         await sendEmailVerification(credential.user, {
-          url: `${window.location.origin}/${locale}/verify-email`,
+          url: `${window.location.origin}/${locale}/login?verified=1`,
         });
         followSession(
           await createServerSession(credential.user, {
@@ -162,6 +163,7 @@ export function AuthForm({ locale, copy, mode }: AuthFormProps) {
         </fieldset>
       ) : null}
 
+      {verified && mode === "login" ? <p className="auth-success" role="status">{copy.login.verified}</p> : null}
       {error ? <p className="form-message error" role="alert">{error}</p> : null}
       {sent && mode === "forgot" ? <p className="auth-success" role="status">{copy.forgot.success}</p> : null}
 

@@ -53,7 +53,7 @@ export function VerifyEmailCard({ locale, copy }: { locale: Locale; copy: AuthCo
     try {
       const user = await currentUser();
       if (!user) throw new Error("no_user");
-      await sendEmailVerification(user, { url: `${window.location.origin}/${locale}/verify-email` });
+      await sendEmailVerification(user, { url: `${window.location.origin}/${locale}/login?verified=1` });
       setMessage(copy.verify.resent);
     } catch (caught) {
       setError(caught instanceof Error && caught.message === "no_user" ? copy.verify.noUser : localizedAuthError(caught, locale));

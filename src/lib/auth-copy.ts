@@ -22,6 +22,7 @@ export type AuthCopy = {
     forgot: string;
     prompt: string;
     link: string;
+    verified: string;
   };
   signup: {
     eyebrow: string;
@@ -104,6 +105,7 @@ export const authCopy: Record<Locale, AuthCopy> = {
       forgot: "Wachtwoord vergeten?",
       prompt: "Nog geen account?",
       link: "Maak er een aan",
+      verified: "Je e-mailadres is bevestigd. Log in om verder te gaan.",
     },
     signup: {
       eyebrow: "Begin lokaal",
@@ -129,7 +131,7 @@ export const authCopy: Record<Locale, AuthCopy> = {
       check: "Ik heb mijn e-mail bevestigd",
       resend: "Verificatiemail opnieuw sturen",
       resent: "Een nieuwe verificatiemail is verstuurd.",
-      noUser: "Deze verificatiesessie is verlopen. Log opnieuw in om verder te gaan.",
+      noUser: "Al bevestigd? Log in om verder te gaan.",
       login: "Naar inloggen",
     },
     onboarding: {
@@ -189,6 +191,7 @@ export const authCopy: Record<Locale, AuthCopy> = {
       forgot: "Forgot password?",
       prompt: "No account yet?",
       link: "Create one",
+      verified: "Your email is verified. Log in to continue.",
     },
     signup: {
       eyebrow: "Start local",
@@ -214,7 +217,7 @@ export const authCopy: Record<Locale, AuthCopy> = {
       check: "I verified my email",
       resend: "Resend verification email",
       resent: "A new verification email has been sent.",
-      noUser: "This verification session expired. Log in again to continue.",
+      noUser: "Already verified? Log in to continue.",
       login: "Go to login",
     },
     onboarding: {
