@@ -243,7 +243,7 @@ button {
 
 .hero {
   position: relative;
-  min-height: min(1040px, 100vh);
+  min-height: 1040px;
   display: grid;
   grid-template-columns: minmax(0, 48%) minmax(0, 52%);
   background: var(--paper);
@@ -252,8 +252,7 @@ button {
 .hero-copy {
   position: relative;
   z-index: 4;
-  padding: clamp(120px, min(15vw, 20vh), 235px) 42px clamp(64px, 16vh, 180px)
-    clamp(38px, 6vw, 104px);
+  padding: clamp(190px, 15vw, 235px) 42px 180px clamp(38px, 6vw, 104px);
   align-self: center;
 }
 
@@ -366,7 +365,7 @@ button {
 
 .hero-media {
   position: relative;
-  min-height: min(760px, 78vh);
+  min-height: 760px;
   align-self: stretch;
   overflow: hidden;
   border-bottom-left-radius: 160px;
@@ -384,45 +383,12 @@ button {
   object-position: 57% center;
 }
 
-.form-position {
-  position: absolute;
-  z-index: 8;
-  right: clamp(28px, 6vw, 95px);
-  bottom: -52px;
-  width: min(425px, calc(100% - 40px));
-}
-
 .glass-panel {
   background: rgba(255, 255, 255, 0.84);
   border: 1px solid rgba(255, 255, 255, 0.88);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-}
-
-.hero-cta-card {
-  padding: 26px;
-  border-radius: 22px;
-}
-
-.hero-cta-card h2 {
-  margin: 0 0 12px;
-  color: var(--ink);
-  font-family: var(--font-fraunces), serif;
-  font-size: 1.5rem;
-  line-height: 1.2;
-}
-
-.hero-cta-card p {
-  margin: 0 0 22px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
-
-.hero-cta-card .primary-cta {
-  width: 100%;
-  justify-content: space-between;
 }
 
 .field-group {
@@ -1272,10 +1238,6 @@ button {
     padding-right: 38px;
   }
 
-  .form-position {
-    right: 32px;
-  }
-
   .trust-grid {
     grid-template-columns: 1fr 1fr;
     row-gap: 42px;
@@ -1337,14 +1299,6 @@ button {
     object-position: 56% center;
   }
 
-  .form-position {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: min(calc(100% - 40px), 520px);
-    margin: -95px auto 0;
-  }
-
   .trust-section {
     padding-top: 115px;
   }
@@ -1378,34 +1332,6 @@ button {
 
   .auth-card {
     width: min(100%, 570px);
-  }
-}
-
-/* Short desktop/tablet viewports (e.g. a laptop browser window without much
-   vertical room): fall back to the same in-flow stacking used on narrow
-   screens so the overlapping hero card is never cropped off-screen. */
-@media (max-height: 760px) and (min-width: 901px) {
-  .hero {
-    min-height: auto;
-    display: block;
-    padding-bottom: 0;
-  }
-
-  .hero-copy {
-    padding-top: 140px;
-    padding-bottom: 0;
-  }
-
-  .hero-media {
-    min-height: 420px;
-  }
-
-  .form-position {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: min(calc(100% - 80px), 520px);
-    margin: -80px auto 56px;
   }
 }
 
@@ -1465,16 +1391,6 @@ button {
 
   .hero-media img {
     object-position: 62% center;
-  }
-
-  .form-position {
-    width: calc(100% - 28px);
-    margin-top: -45px;
-  }
-
-  .hero-cta-card {
-    padding: 21px;
-    border-radius: 18px;
   }
 
   .role-options {

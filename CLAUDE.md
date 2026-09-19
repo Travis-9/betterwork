@@ -174,7 +174,7 @@ Firebase Console setup requires Email/Password and Google providers, a Google su
 The landing page follows the selected Option 3 composition:
 
 - Split desktop hero with editorial three-line headline.
-- Collaboration image on the right and an overlapping sign-up CTA card.
+- Collaboration image on the right, closing out the split hero.
 - Trust section with four value propositions.
 - Two audience paths: clients and freelancers.
 - Origin-story section with Paramaribo River imagery.
