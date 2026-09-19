@@ -2,22 +2,23 @@
 
 import { List, X } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import type { LandingCopy, Locale } from "@/lib/i18n";
 
 type SiteHeaderProps = {
-  // locale: Locale;
-  // copy: LandingCopy["header"];
+  locale: Locale;
+  copy: LandingCopy["header"];
+  authenticated: boolean;
   activePage?: "jobs" | "freelancers" | "about";
 };
 
-export function SiteHeader({ activePage }: SiteHeaderProps) {
+export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [soonOpen, setSoonOpen] = useState(false);
 
-  // useEffect(() => {
-  //   document.documentElement.lang = locale;
-  // }, [locale]);
+  useEffect(() => {
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -40,22 +41,12 @@ export function SiteHeader({ activePage }: SiteHeaderProps) {
 
         <div className="header-actions">
           <div className="login-wrap">
-            <button
-              className="login-button"
-              type="button"
-              aria-expanded={soonOpen}
-              onClick={() => setSoonOpen((value) => !value)}
-            >
-              Sign In
-            </button>
-            {soonOpen ? (
-              <span className="coming-soon" role="status">
-                Coming Soon
-              </span>
-            ) : null}
+            <Link className="login-button" href={`/${locale}/${authenticated ? "account" : "login"}`}>
+              {authenticated ? copy.account : copy.login}
+            </Link>
           </div>
 
-          {/* <div className="locale-switcher" aria-label="Language">
+          <div className="locale-switcher" aria-label="Language">
             <Link className={locale === "nl" ? "active" : ""} href="/nl">
               NL
             </Link>
@@ -63,7 +54,7 @@ export function SiteHeader({ activePage }: SiteHeaderProps) {
             <Link className={locale === "en" ? "active" : ""} href="/en">
               EN
             </Link>
-          </div> */}
+          </div>
 
           <button
             className="menu-button"
@@ -89,15 +80,9 @@ export function SiteHeader({ activePage }: SiteHeaderProps) {
           <Link href="/about" className={activePage === "about" ? "active" : ""} onClick={closeMenu}>
             About
           </Link>
-          <button
-            type="button"
-            onClick={() => {
-              setSoonOpen(true);
-              closeMenu();
-            }}
-          >
-            Sign In · Coming Soon
-          </button>
+          <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
+            {authenticated ? copy.account : copy.login}
+          </Link>
         </nav>
       ) : null}
     </header>
