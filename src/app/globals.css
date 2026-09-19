@@ -243,7 +243,7 @@ button {
 
 .hero {
   position: relative;
-  min-height: 1040px;
+  min-height: min(1040px, 100vh);
   display: grid;
   grid-template-columns: minmax(0, 48%) minmax(0, 52%);
   background: var(--paper);
@@ -252,7 +252,8 @@ button {
 .hero-copy {
   position: relative;
   z-index: 4;
-  padding: clamp(190px, 15vw, 235px) 42px 180px clamp(38px, 6vw, 104px);
+  padding: clamp(120px, min(15vw, 20vh), 235px) 42px clamp(64px, 16vh, 180px)
+    clamp(38px, 6vw, 104px);
   align-self: center;
 }
 
@@ -365,7 +366,7 @@ button {
 
 .hero-media {
   position: relative;
-  min-height: 760px;
+  min-height: min(760px, 78vh);
   align-self: stretch;
   overflow: hidden;
   border-bottom-left-radius: 160px;
@@ -399,17 +400,29 @@ button {
   -webkit-backdrop-filter: blur(18px);
 }
 
-.waitlist-card {
+.hero-cta-card {
   padding: 26px;
   border-radius: 22px;
 }
 
-.waitlist-card h2 {
-  margin: 0 0 20px;
+.hero-cta-card h2 {
+  margin: 0 0 12px;
   color: var(--ink);
   font-family: var(--font-fraunces), serif;
   font-size: 1.5rem;
   line-height: 1.2;
+}
+
+.hero-cta-card p {
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.hero-cta-card .primary-cta {
+  width: 100%;
+  justify-content: space-between;
 }
 
 .field-group {
@@ -507,14 +520,6 @@ button {
   height: 20px;
 }
 
-.honeypot {
-  position: absolute;
-  left: -10000px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
 .form-message {
   margin: -4px 0 12px;
   font-size: 0.75rem;
@@ -555,54 +560,6 @@ button {
 .submit-button svg {
   width: 19px;
   height: 19px;
-}
-
-.privacy-note {
-  margin: 12px 0 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  color: #748079;
-  font-size: 0.65rem;
-  line-height: 1.45;
-}
-
-.privacy-note svg {
-  width: 14px;
-  height: 14px;
-  flex: 0 0 auto;
-  margin-top: 1px;
-}
-
-.waitlist-result {
-  min-height: 430px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.waitlist-result > svg {
-  width: 52px;
-  height: 52px;
-  margin-bottom: 20px;
-  color: var(--forest-soft);
-}
-
-.waitlist-result p {
-  margin: 0 0 24px;
-  color: var(--muted);
-}
-
-.waitlist-result button {
-  min-height: 45px;
-  padding: 0 17px;
-  border: 1px solid var(--forest);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--forest);
-  cursor: pointer;
-  font-weight: 750;
 }
 
 .section-shell {
@@ -1424,6 +1381,34 @@ button {
   }
 }
 
+/* Short desktop/tablet viewports (e.g. a laptop browser window without much
+   vertical room): fall back to the same in-flow stacking used on narrow
+   screens so the overlapping hero card is never cropped off-screen. */
+@media (max-height: 760px) and (min-width: 901px) {
+  .hero {
+    min-height: auto;
+    display: block;
+    padding-bottom: 0;
+  }
+
+  .hero-copy {
+    padding-top: 140px;
+    padding-bottom: 0;
+  }
+
+  .hero-media {
+    min-height: 420px;
+  }
+
+  .form-position {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(calc(100% - 80px), 520px);
+    margin: -80px auto 56px;
+  }
+}
+
 @media (max-width: 680px) {
   html {
     scroll-padding-top: 90px;
@@ -1487,7 +1472,7 @@ button {
     margin-top: -45px;
   }
 
-  .waitlist-card {
+  .hero-cta-card {
     padding: 21px;
     border-radius: 18px;
   }

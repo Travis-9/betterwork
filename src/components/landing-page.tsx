@@ -12,7 +12,6 @@ import Image from "next/image";
 import Link from "next/link";
 import type { LandingCopy, Locale } from "@/lib/i18n";
 import { SiteHeader } from "@/components/site-header";
-import { WaitlistForm } from "@/components/waitlist-form";
 
 type LandingPageProps = {
   locale: Locale;
@@ -38,10 +37,10 @@ export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
             </h1>
             <p className="hero-body">{copy.hero.body}</p>
             <div className="hero-actions">
-              <a className="primary-cta" href="#early-access">
+              <Link className="primary-cta" href={`/${locale}/signup`}>
                 {copy.hero.primary}
                 <ArrowRight aria-hidden="true" />
-              </a>
+              </Link>
               <Link className="secondary-cta" href="/jobs">
                 {copy.hero.secondary}
                 <ArrowRight aria-hidden="true" />
@@ -64,7 +63,14 @@ export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
           </div>
 
           <div className="form-position reveal reveal-three">
-            <WaitlistForm locale={locale} copy={copy.form} />
+            <div className="hero-cta-card glass-panel" id="early-access">
+              <h2>{copy.heroCard.title}</h2>
+              <p>{copy.heroCard.body}</p>
+              <Link className="primary-cta" href={`/${locale}/signup`}>
+                {copy.hero.primary}
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -103,10 +109,10 @@ export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
                 <UsersThree aria-hidden="true" weight="duotone" />
                 <h3>{copy.talent.clientTitle}</h3>
                 <p>{copy.talent.clientBody}</p>
-                <a href="#early-access">
+                <Link href={`/${locale}/signup`}>
                   {copy.hero.primary}
                   <ArrowRight aria-hidden="true" />
-                </a>
+                </Link>
               </article>
               <article id="work">
                 <span className="path-number">02</span>
