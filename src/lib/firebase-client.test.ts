@@ -20,7 +20,16 @@ vi.mock("firebase/auth", () => ({
 }));
 
 describe("Firebase browser singleton", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.resetModules();
+  });
+
+  it("does not touch Firebase at import time so SSR cannot fail on missing config", async () => {
+    await import("@/lib/firebase-client");
+    expect(mocks.initializeApp).not.toHaveBeenCalled();
+    expect(mocks.getAuth).not.toHaveBeenCalled();
+  });
 
   it("initializes one app and configures in-memory auth once", async () => {
     const client = await import("@/lib/firebase-client");

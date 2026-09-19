@@ -7,7 +7,7 @@ import type {
   SessionApiResponse,
   SignupProfile,
 } from "@/lib/auth";
-import { firebaseAuth } from "@/lib/firebase-client";
+import { getFirebaseAuth } from "@/lib/firebase-client";
 import type { Locale } from "@/lib/i18n";
 
 async function getCsrfToken() {
@@ -41,7 +41,7 @@ export async function createServerSession(
   const data = (await response.json()) as SessionApiResponse;
 
   if (data.status === "authenticated" || data.status === "profile_required") {
-    await signOut(firebaseAuth);
+    await signOut(getFirebaseAuth());
   }
 
   return data;
@@ -84,6 +84,7 @@ const firebaseErrors: Record<Locale, Record<string, string>> = {
     "auth/popup-blocked": "Sta pop-ups toe om met Google in te loggen.",
     "auth/too-many-requests": "Te veel pogingen. Probeer het later opnieuw.",
     "auth/weak-password": "Kies een sterker wachtwoord van minimaal 8 tekens.",
+    "auth/invalid-api-key": "De service is momenteel niet beschikbaar. Probeer het later opnieuw.",
     // Errors returned by our own /api/auth/session and /api/auth/profile routes.
     invalid_request: "Ongeldige aanvraag. Vernieuw de pagina en probeer het opnieuw.",
     invalid_origin: "De aanvraag is geweigerd om veiligheidsredenen. Vernieuw de pagina en probeer het opnieuw.",
@@ -103,6 +104,7 @@ const firebaseErrors: Record<Locale, Record<string, string>> = {
     "auth/popup-blocked": "Allow pop-ups to continue with Google.",
     "auth/too-many-requests": "Too many attempts. Please try again later.",
     "auth/weak-password": "Choose a stronger password with at least 8 characters.",
+    "auth/invalid-api-key": "The service is temporarily unavailable. Please try again later.",
     // Errors returned by our own /api/auth/session and /api/auth/profile routes.
     invalid_request: "Invalid request. Refresh the page and try again.",
     invalid_origin: "The request was blocked for security reasons. Refresh the page and try again.",

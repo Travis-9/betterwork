@@ -101,7 +101,7 @@ Use `next/link` for page navigation and regular anchors for same-page sections s
 
 ### Browser Firebase
 
-`src/lib/firebase-client.ts` owns the browser Firebase singleton. It uses Firebase Auth with `inMemoryPersistence`; browser Auth is only the short-lived identity handoff. `prepareFirebaseAuth()` configures persistence once. Firebase Analytics is lazy-loaded only in production, only in supported browsers, and only after explicit consent.
+`src/lib/firebase-client.ts` owns the browser Firebase singleton. It uses Firebase Auth with `inMemoryPersistence`; browser Auth is only the short-lived identity handoff. `prepareFirebaseAuth()` configures persistence once. The app and Auth instance are created lazily on first use (`getFirebaseAuth()`), never at import: client modules are also evaluated during SSR, and `getAuth()` throws `auth/invalid-api-key` when the `NEXT_PUBLIC_FIREBASE_*` values are missing, which used to 500 every `/{locale}` page. Keep it lazy. Firebase Analytics is lazy-loaded only in production, only in supported browsers, and only after explicit consent.
 
 Public browser configuration comes from `NEXT_PUBLIC_FIREBASE_*` variables. Those values identify the Firebase web project and are not secrets.
 

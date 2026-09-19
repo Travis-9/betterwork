@@ -5,6 +5,7 @@ import {
   getAuth,
   inMemoryPersistence,
   setPersistence,
+  type Auth,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -17,14 +18,26 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-export const firebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth(firebaseApp);
+// Initialized on first use, never at import: client modules are also evaluated
+// during SSR, and getAuth() throws when the public config is missing, which
+// would otherwise take down every page that merely imports this file.
+function getFirebaseApp() {
+  return getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+}
+
+let authInstance: Auth | null = null;
+
+export function getFirebaseAuth() {
+  authInstance ??= getAuth(getFirebaseApp());
+  return authInstance;
+}
 
 let persistencePromise: Promise<void> | null = null;
 
 export function prepareFirebaseAuth() {
-  persistencePromise ??= setPersistence(firebaseAuth, inMemoryPersistence);
-  return persistencePromise.then(() => firebaseAuth);
+  const auth = getFirebaseAuth();
+  persistencePromise ??= setPersistence(auth, inMemoryPersistence);
+  return persistencePromise.then(() => auth);
 }
 
 let analyticsPromise: Promise<unknown> | null = null;
@@ -34,10 +47,12 @@ export function enableFirebaseAnalytics() {
     return Promise.resolve(null);
   }
 
-  analyticsPromise ??= import("firebase/analytics").then(async (analytics) => {
-    if (!(await analytics.isSupported())) return null;
-    return analytics.getAnalytics(firebaseApp);
-  });
+  analyticsPromise ??= import("firebase/analytics")
+    .then(async (analytics) => {
+      if (!(await analytics.isSupported())) return null;
+      return analytics.getAnalytics(getFirebaseApp());
+    })
+    .catch(() => null);
 
   return analyticsPromise;
 }
