@@ -4,42 +4,14 @@ import { ArrowRight, Briefcase, Chat, Check, Globe, Handshake, MagnifyingGlass, 
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { SiteHeader } from "@/components/site-header";
 
 export function AboutPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="about-page">
-      <header className="about-header">
-        <div className="about-header-inner">
-          <Link className="about-wordmark" href="/" aria-label="ConnectSu home">
-            <span>Betterwork</span>
-          </Link>
-          <nav className="about-nav" aria-label="Primary navigation">
-            <Link href="/jobs">Jobs</Link>
-            <Link href="/hire">Hire</Link>
-            <Link href="/freelancers">Freelancers</Link>
-            <Link className="active" href="/about">About</Link>
-          </nav>
-          <div className="about-header-actions">
-            <Link href="/login">Sign In</Link>
-            <Link className="about-cta" href="/jobs/post">Post a Job</Link>
-            <button className="about-menu" type="button" aria-expanded={menuOpen} aria-controls="about-mobile-nav" aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? <X aria-hidden="true" /> : <ArrowRight aria-hidden="true" />}
-            </button>
-          </div>
-        </div>
-        {menuOpen && (
-          <nav id="about-mobile-nav" className="about-mobile-nav">
-            <Link href="/jobs" onClick={() => setMenuOpen(false)}>Jobs</Link>
-            <Link href="/hire" onClick={() => setMenuOpen(false)}>Hire</Link>
-            <Link href="/freelancers" onClick={() => setMenuOpen(false)}>Freelancers</Link>
-            <Link href="/about" onClick={() => setMenuOpen(false)}>About</Link>
-            <Link href="/login" onClick={() => setMenuOpen(false)}>Sign In</Link>
-            <Link className="about-cta" href="/jobs/post" onClick={() => setMenuOpen(false)}>Post a Job</Link>
-          </nav>
-        )}
-      </header>
+      <SiteHeader activePage="about" />
 
       <main>
         <HeroSection />
