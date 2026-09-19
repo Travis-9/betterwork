@@ -7,17 +7,19 @@ import Image from "next/image";
 import type { LandingCopy, Locale } from "@/lib/i18n";
 
 type SiteHeaderProps = {
-  locale: Locale;
-  copy: LandingCopy["header"];
-  authenticated: boolean;
+  locale?: Locale;
+  copy?: LandingCopy["header"];
+  authenticated?: boolean;
   activePage?: "jobs" | "freelancers" | "about";
 };
 
 export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [soonOpen, setSoonOpen] = useState(false);
+  const localized = locale && copy;
 
   useEffect(() => {
-    document.documentElement.lang = locale;
+    if (locale) document.documentElement.lang = locale;
   }, [locale]);
 
   const closeMenu = () => setMenuOpen(false);
@@ -26,7 +28,7 @@ export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHead
     <header className="site-header">
       <div className="header-shell glass-nav">
         <Link className="wordmark" href="/" aria-label="Betterwork">
-          <Image src="/logo.png" alt="" width={40} height={40}/>
+          <Image src="/logo.png" alt="" width={40} height={40} />
           <span>
             Betterwork
             <small>Suriname-first</small>
@@ -41,20 +43,40 @@ export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHead
 
         <div className="header-actions">
           <div className="login-wrap">
-            <Link className="login-button" href={`/${locale}/${authenticated ? "account" : "login"}`}>
-              {authenticated ? copy.account : copy.login}
-            </Link>
+            {localized ? (
+              <Link className="login-button" href={`/${locale}/${authenticated ? "account" : "login"}`}>
+                {authenticated ? copy.account : copy.login}
+              </Link>
+            ) : (
+              <>
+                <button
+                  className="login-button"
+                  type="button"
+                  aria-expanded={soonOpen}
+                  onClick={() => setSoonOpen((value) => !value)}
+                >
+                  Sign In
+                </button>
+                {soonOpen ? (
+                  <span className="coming-soon" role="status">
+                    Coming Soon
+                  </span>
+                ) : null}
+              </>
+            )}
           </div>
 
-          <div className="locale-switcher" aria-label="Language">
-            <Link className={locale === "nl" ? "active" : ""} href="/nl">
-              NL
-            </Link>
-            <span aria-hidden="true">/</span>
-            <Link className={locale === "en" ? "active" : ""} href="/en">
-              EN
-            </Link>
-          </div>
+          {locale ? (
+            <div className="locale-switcher" aria-label="Language">
+              <Link className={locale === "nl" ? "active" : ""} href="/nl">
+                NL
+              </Link>
+              <span aria-hidden="true">/</span>
+              <Link className={locale === "en" ? "active" : ""} href="/en">
+                EN
+              </Link>
+            </div>
+          ) : null}
 
           <button
             className="menu-button"
@@ -80,9 +102,21 @@ export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHead
           <Link href="/about" className={activePage === "about" ? "active" : ""} onClick={closeMenu}>
             About
           </Link>
-          <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
-            {authenticated ? copy.account : copy.login}
-          </Link>
+          {localized ? (
+            <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
+              {authenticated ? copy.account : copy.login}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setSoonOpen(true);
+                closeMenu();
+              }}
+            >
+              Sign In · Coming Soon
+            </button>
+          )}
         </nav>
       ) : null}
     </header>

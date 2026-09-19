@@ -11,21 +11,17 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import type { LandingCopy, Locale } from "@/lib/i18n";
-import { SiteHeader } from "@/components/site-header";
 
 type LandingPageProps = {
   locale: Locale;
   copy: LandingCopy;
-  authenticated: boolean;
 };
 
 const trustIcons = [MapPin, ClipboardText, CreditCard, ShieldCheck];
 
-export function LandingPage({ locale, copy, authenticated }: LandingPageProps) {
+export function LandingPage({ locale, copy }: LandingPageProps) {
   return (
     <div className="page-shell">
-      <SiteHeader locale={locale} copy={copy.header} authenticated={authenticated} />
-
       <main>
         <section className="hero" id="top">
           <div className="hero-copy reveal reveal-one">
