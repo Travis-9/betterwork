@@ -115,6 +115,8 @@ Public browser configuration comes from `NEXT_PUBLIC_FIREBASE_*` variables. Thos
 
 Never expose Admin credentials to the browser and never prefix them with `NEXT_PUBLIC_`. The private key may contain escaped `\\n` sequences and is normalized before creating the Admin credential.
 
+`package.json` pins `firebase-admin>jwks-rsa` to `^3.2.2` via `pnpm.overrides`. Do not remove it casually: `jwks-rsa@4` depends on the ESM-only `jose@6`, so loading `firebase-admin/auth` throws `ERR_REQUIRE_ESM` on Node < 22.12 (this took down every route importing `auth-server.ts` on Vercel with a 500). `jwks-rsa` only backs App Check and phone-number verification, neither of which this app uses; ID-token and session-cookie verification use the certificate-URL path. Because `firebase-admin` is a server-external package, this is a runtime Node-version issue that no bundler flag (webpack/Turbopack) can fix. To verify, run `pnpm dlx node@22.11.0 -e "require('firebase-admin/auth')"`.
+
 ### Authentication
 
 The client uses Firebase Auth for email/password and Google sign-in, then exchanges a fresh Firebase ID token for a server session through `createServerSession()`.
