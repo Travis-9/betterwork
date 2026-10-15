@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function FreelancersRoute() {
-  return <FreelancersPage />;
+  return <FreelancersPage locale="nl" />;
 }

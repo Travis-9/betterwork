@@ -9,7 +9,7 @@ import type { AuthCopy } from "@/lib/auth-copy";
 import { prepareFirebaseAuth } from "@/lib/firebase-client";
 import type { Locale } from "@/lib/i18n";
 
-export function VerifyEmailCard({ locale, copy }: { locale: Locale; copy: AuthCopy }) {
+export function VerifyEmailCard({ locale, copy, nextPath }: { locale: Locale; copy: AuthCopy; nextPath?: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -30,10 +30,10 @@ export function VerifyEmailCard({ locale, copy }: { locale: Locale; copy: AuthCo
       await user.reload();
       const response = await createServerSession(user);
       if (response.status === "authenticated") {
-        router.push(`/${locale}/account`);
+        router.push(nextPath ?? `/${locale}/account`);
         router.refresh();
       } else if (response.status === "profile_required") {
-        router.push(`/${locale}/onboarding`);
+        router.push(`/${locale}/onboarding${nextPath ? `?next=${encodeURIComponent(nextPath)}` : ""}`);
         router.refresh();
       } else if (response.status === "verification_required") {
         setError(copy.verify.body);
@@ -53,7 +53,7 @@ export function VerifyEmailCard({ locale, copy }: { locale: Locale; copy: AuthCo
     try {
       const user = await currentUser();
       if (!user) throw new Error("no_user");
-      await sendEmailVerification(user, { url: `${window.location.origin}/${locale}/login?verified=1` });
+      await sendEmailVerification(user, { url: `${window.location.origin}/${locale}/login?verified=1${nextPath ? `&next=${encodeURIComponent(nextPath)}` : ""}` });
       setMessage(copy.verify.resent);
     } catch (caught) {
       setError(caught instanceof Error && caught.message === "no_user" ? copy.verify.noUser : localizedAuthError(caught, locale));

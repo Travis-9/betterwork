@@ -10,13 +10,14 @@ export default async function LoginPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ verified?: string }>;
+  searchParams: Promise<{ verified?: string; next?: string }>;
 }) {
   const { locale } = await params;
-  const { verified } = await searchParams;
+  const { verified, next } = await searchParams;
   if (!isLocale(locale)) notFound();
   const user = await getCurrentUser();
   if (user?.profileComplete) redirect(`/${locale}/account`);
   const text = authCopy[locale];
-  return <AuthShell locale={locale} route="login" eyebrow={text.login.eyebrow} title={text.login.title} body={text.login.body} backLabel={text.common.backHome}><AuthForm locale={locale} copy={text} mode="login" verified={verified === "1"} /></AuthShell>;
+  const nextPath = next?.startsWith(`/${locale}/`) && !next.startsWith("//") ? next : undefined;
+  return <AuthShell locale={locale} route="login" eyebrow={text.login.eyebrow} title={text.login.title} body={text.login.body} backLabel={text.common.backHome}><AuthForm locale={locale} copy={text} mode="login" verified={verified === "1"} nextPath={nextPath} /></AuthShell>;
 }

@@ -2,7 +2,7 @@
 
 import { List, X } from "@phosphor-icons/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import type { LandingCopy, Locale } from "@/lib/i18n";
 
@@ -13,22 +13,27 @@ type SiteHeaderProps = {
   activePage?: "jobs" | "freelancers" | "about";
 };
 
-export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHeaderProps) {
+export function SiteHeader({
+  locale,
+  copy,
+  authenticated,
+  activePage,
+}: SiteHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [soonOpen, setSoonOpen] = useState(false);
-  const localized = locale && copy;
+  const currentLocale = locale ?? "nl";
+  const localizedPath = (path: string) => `/${currentLocale}${path}`;
 
-  useEffect(() => {
-    if (locale) document.documentElement.lang = locale;
-  }, [locale]);
+  // useEffect(() => {
+  //   document.documentElement.lang = locale;
+  // }, [locale]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
     <header className="site-header">
       <div className="header-shell glass-nav">
-        <Link className="wordmark" href="/" aria-label="Betterwork">
-          <Image src="/logo.png" alt="" width={40} height={40} />
+        <Link className="wordmark" href={locale ? `/${locale}` : "/"} aria-label="Betterwork">
+          <Image src="/logo.png" alt="" width={40} height={40}/>
           <span>
             Betterwork
             <small>Suriname-first</small>
@@ -36,47 +41,23 @@ export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHead
         </Link>
 
         <nav className="desktop-nav" aria-label="Primary navigation">
-          <Link href="/freelancers" className={activePage === "freelancers" ? "active" : ""}>Freelancers</Link>
-          <Link href="/jobs" className={activePage === "jobs" ? "active" : ""}>Jobs</Link>
-          <Link href="/about" className={activePage === "about" ? "active" : ""}>About</Link>
+          <Link href={localizedPath("/freelancers")} className={activePage === "freelancers" ? "active" : ""}>Freelancers</Link>
+          <Link href={localizedPath("/jobs")} className={activePage === "jobs" ? "active" : ""}>Jobs</Link>
+          <Link href={localizedPath("/about")} className={activePage === "about" ? "active" : ""}>About</Link>
         </nav>
 
         <div className="header-actions">
-          <div className="login-wrap">
-            {localized ? (
-              <Link className="login-button" href={`/${locale}/${authenticated ? "account" : "login"}`}>
-                {authenticated ? copy.account : copy.login}
-              </Link>
-            ) : (
-              <>
-                <button
-                  className="login-button"
-                  type="button"
-                  aria-expanded={soonOpen}
-                  onClick={() => setSoonOpen((value) => !value)}
-                >
-                  Sign In
-                </button>
-                {soonOpen ? (
-                  <span className="coming-soon" role="status">
-                    Coming Soon
-                  </span>
-                ) : null}
-              </>
-            )}
-          </div>
+          <div className="login-wrap"><Link className="login-button" href={localizedPath(authenticated ? "/account" : "/login")}>{authenticated ? copy?.account ?? "Account" : copy?.login ?? "Sign In"}</Link></div>
 
-          {locale ? (
-            <div className="locale-switcher" aria-label="Language">
-              <Link className={locale === "nl" ? "active" : ""} href="/nl">
-                NL
-              </Link>
-              <span aria-hidden="true">/</span>
-              <Link className={locale === "en" ? "active" : ""} href="/en">
-                EN
-              </Link>
-            </div>
-          ) : null}
+          {/* <div className="locale-switcher" aria-label="Language">
+            <Link className={locale === "nl" ? "active" : ""} href="/nl">
+              NL
+            </Link>
+            <span aria-hidden="true">/</span>
+            <Link className={locale === "en" ? "active" : ""} href="/en">
+              EN
+            </Link>
+          </div> */}
 
           <button
             className="menu-button"
@@ -93,30 +74,16 @@ export function SiteHeader({ locale, copy, authenticated, activePage }: SiteHead
 
       {menuOpen ? (
         <nav id="mobile-navigation" className="mobile-nav" aria-label="Mobile navigation">
-          <Link href="/freelancers" className={activePage === "freelancers" ? "active" : ""} onClick={closeMenu}>
+          <Link href={localizedPath("/freelancers")} className={activePage === "freelancers" ? "active" : ""} onClick={closeMenu}>
             Freelancers
           </Link>
-          <Link href="/jobs" className={activePage === "jobs" ? "active" : ""} onClick={closeMenu}>
+          <Link href={localizedPath("/jobs")} className={activePage === "jobs" ? "active" : ""} onClick={closeMenu}>
             Jobs
           </Link>
-          <Link href="/about" className={activePage === "about" ? "active" : ""} onClick={closeMenu}>
+          <Link href={localizedPath("/about")} className={activePage === "about" ? "active" : ""} onClick={closeMenu}>
             About
           </Link>
-          {localized ? (
-            <Link href={`/${locale}/${authenticated ? "account" : "login"}`} onClick={closeMenu}>
-              {authenticated ? copy.account : copy.login}
-            </Link>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setSoonOpen(true);
-                closeMenu();
-              }}
-            >
-              Sign In · Coming Soon
-            </button>
-          )}
+          <Link href={localizedPath(authenticated ? "/account" : "/login")} onClick={closeMenu}>{authenticated ? copy?.account ?? "Account" : copy?.login ?? "Sign In"}</Link>
         </nav>
       ) : null}
     </header>

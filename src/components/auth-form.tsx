@@ -23,9 +23,10 @@ type AuthFormProps = {
   copy: AuthCopy;
   mode: "login" | "signup" | "forgot";
   verified?: boolean;
+  nextPath?: string;
 };
 
-export function AuthForm({ locale, copy, mode, verified = false }: AuthFormProps) {
+export function AuthForm({ locale, copy, mode, verified = false, nextPath }: AuthFormProps) {
   const router = useRouter();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,16 +38,16 @@ export function AuthForm({ locale, copy, mode, verified = false }: AuthFormProps
 
   function followSession(response: SessionApiResponse) {
     if (response.status === "verification_required") {
-      router.push(`/${locale}/verify-email`);
+      router.push(`/${locale}/verify-email${nextPath ? `?next=${encodeURIComponent(nextPath)}` : ""}`);
       return;
     }
     if (response.status === "profile_required") {
-      router.push(`/${locale}/onboarding`);
+      router.push(`/${locale}/onboarding${nextPath ? `?next=${encodeURIComponent(nextPath)}` : ""}`);
       router.refresh();
       return;
     }
     if (response.status === "authenticated") {
-      router.push(`/${locale}/account`);
+      router.push(nextPath ?? `/${locale}/account`);
       router.refresh();
       return;
     }
@@ -76,7 +77,7 @@ export function AuthForm({ locale, copy, mode, verified = false }: AuthFormProps
         const credential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(credential.user, { displayName: displayName.trim() });
         await sendEmailVerification(credential.user, {
-          url: `${window.location.origin}/${locale}/login?verified=1`,
+          url: `${window.location.origin}/${locale}/login?verified=1${nextPath ? `&next=${encodeURIComponent(nextPath)}` : ""}`,
         });
         followSession(
           await createServerSession(credential.user, {

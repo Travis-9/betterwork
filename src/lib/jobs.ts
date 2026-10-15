@@ -21,5 +21,22 @@ export const jobs: Job[] = [
   { id: "marketing-specialist", title: "Marketing Specialist", company: "Paramaribo Creative House", location: "Remote", type: "Freelance", salary: "SRD 10k - 16k", description: "Bring locally grounded campaigns to life for a portfolio of ambitious businesses.", tags: ["Marketing", "Content"], posted: "Posted 1 week ago" },
 ];
 
+export function getJobById(id: string) {
+  return jobs.find((job) => job.id === id) ?? null;
+}
+
+export function getRelatedJobs(job: Job, limit = 3) {
+  return jobs
+    .filter((candidate) => candidate.id !== job.id)
+    .map((candidate) => ({
+      candidate,
+      overlap: candidate.tags.filter((tag) => job.tags.includes(tag)).length,
+    }))
+    .filter(({ overlap }) => overlap > 0)
+    .sort((first, second) => second.overlap - first.overlap)
+    .slice(0, limit)
+    .map(({ candidate }) => candidate);
+}
+
 export const locations = ["Paramaribo", "Wanica", "Nickerie", "Commewijne", "Remote"];
 export const jobTypes = ["Full-time", "Part-time", "Contract", "Freelance"];

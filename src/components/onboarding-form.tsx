@@ -7,7 +7,7 @@ import { updateServerProfile } from "@/lib/auth-client";
 import type { AuthCopy } from "@/lib/auth-copy";
 import type { Locale } from "@/lib/i18n";
 
-export function OnboardingForm({ locale, copy, initialName = "" }: { locale: Locale; copy: AuthCopy; initialName?: string }) {
+export function OnboardingForm({ locale, copy, initialName = "", nextPath }: { locale: Locale; copy: AuthCopy; initialName?: string; nextPath?: string }) {
   const router = useRouter();
   const [displayName, setDisplayName] = useState(initialName);
   const [role, setRole] = useState<AuthRole>("client");
@@ -20,7 +20,7 @@ export function OnboardingForm({ locale, copy, initialName = "" }: { locale: Loc
     setError("");
     try {
       await updateServerProfile({ displayName: displayName.trim(), primaryRole: role, locale });
-      router.push(`/${locale}/account`);
+      router.push(nextPath ?? `/${locale}/account`);
       router.refresh();
     } catch {
       setError(copy.common.error);
